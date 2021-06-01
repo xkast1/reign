@@ -11,7 +11,15 @@ export class EtlService {
 
     //@Cron(CronExpression.EVERY_HOUR)
     async handleCron(): Promise<any>{
-        return await this.httpService.get(this.urlapi).toPromise();         
+        const value = await this.httpService.get(this.urlapi);
+        // en caso de que quisieras hacer una trasnformacion o algo
+        return new Promise((resolve) => {
+            value.subscribe((result) => {
+                resolve(result.data.hits)
+            }, error => {
+                throw error;
+            })
+        })
     }
   
 }
