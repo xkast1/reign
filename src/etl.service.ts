@@ -10,8 +10,8 @@ export class EtlService {
     constructor(private httpService: HttpService) {}
 
     //@Cron(CronExpression.EVERY_HOUR)
-    async handleCron(): Promise<any>{
-        return await this.httpService.get(this.urlapi).toPromise();         
+    handleCron(): Promise<any>{
+        return this.httpService.get(this.urlapi).toPromise();         
     }
   
 }
