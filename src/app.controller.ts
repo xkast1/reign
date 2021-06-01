@@ -16,6 +16,6 @@ export class AppController {
 
   @Get('/db')
   async getDb(){
-    return await this.etlService.handleCron();
+    return this.etlService.handleCron();
   }
 }
