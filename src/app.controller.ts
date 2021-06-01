@@ -15,7 +15,12 @@ export class AppController {
   }
 
   @Get('/db')
-  async getDb(){
-    return await this.etlService.handleCron();
+  async getDb(): Promise<string>{
+    let retorno;
+    const response = await this.etlService.handleCron()
+      .then(x=> retorno = x.data.hits);
+    console.log(retorno);
+    console.log("==================================================================================");
+    return JSON.stringify(retorno);
   }
 }
