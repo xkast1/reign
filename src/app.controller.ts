@@ -1,26 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Put, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { EtlService } from './etl.service';
-import { promises } from 'fs';
-import { async } from 'rxjs';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, 
-    private etlService: EtlService) {}
+  constructor(private readonly appService: AppService,) {}
 
   @Get('/test')
   getHello(): string {
     return this.appService.getHello();
   }
 
-  @Get('/db')
-  async getDb(): Promise<string>{
-    let retorno;
-    const response = await this.etlService.handleCron()
-      .then(x=> retorno = x.data.hits);
-    console.log(retorno);
-    console.log("==================================================================================");
-    return JSON.stringify(retorno);
+  @Get('/getdata')
+  async getLastHit(){
+    return this.appService.getLastHits();
   }
+
+  @Get('/getdata/desactivate?')
+  async desactivateID(@Query('id') id){
+    return this.appService.desactivateById(id);
+  }
+
 }
